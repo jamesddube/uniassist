@@ -14,9 +14,9 @@ class SubjectModel extends Model
      *
      * @var array
      */
-    protected $fillable = ['subject_name', 'subject_category'];
+    protected $fillable = ['subject_code','subject_name', 'subject_category'];
 
-    protected $pimaryKey = 'subject_code';
+    protected $primaryKey = 'subject_code';
 
 
 }

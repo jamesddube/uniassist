@@ -55,9 +55,10 @@ Route::group(['middleware' => 'auth'],function() {
 
     Route::group(['prefix' => 'admin'], function () {
 
-        Route::get('/', 'AdminController@index');
+
         Route::resource('subjects', 'SubjectsController');
         Route::resource('programs', 'ProgramsController');
+        Route::get('/', 'AdminController@index');
 
     });
 });

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateSubjectRequest;
 use App\SubjectModel;
 use Illuminate\Http\Request;
 
@@ -29,18 +30,22 @@ class SubjectsController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.subjects.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  Request  $request
+     * @param CreateSubjectRequest|Request $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(CreateSubjectRequest $request)
     {
         //
+        SubjectModel::create($request->all());
+
+        return redirect('admin/subjects');
+
     }
 
     /**

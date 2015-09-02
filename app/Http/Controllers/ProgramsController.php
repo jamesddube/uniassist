@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateProgramRequest;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use App\ProgramsModel;
 use App\Http\Controllers\Controller;
 
 class ProgramsController extends Controller
@@ -17,6 +19,9 @@ class ProgramsController extends Controller
     public function index()
     {
         //
+      $programs = ProgramsModel::all();
+
+      return view('admin.programs.index',compact('programs'));
     }
 
     /**
@@ -27,17 +32,21 @@ class ProgramsController extends Controller
     public function create()
     {
         //
+        return view('admin.programs.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  Request  $request
+     * @param CreateProgramRequest|Request $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(CreateProgramRequest $request)
     {
         //
+        ProgramsModel::create($request->all());
+
+        return redirect('admin/programs');
     }
 
     /**

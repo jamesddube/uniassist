@@ -12,9 +12,21 @@
         <div class="navbar-header navbar-right">
             <ul class="nav navbar-nav ">
                 <li><a href="{{ url() }}">Home</a></li>
-                <li><a href="{{ url('admin/subjects') }}">Subjects</a></li>
-                <li><a href="{{ url('admin/programs') }}">Programs</a></li>
-                <li><a href="{{ url('about') }}">About</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Subjects<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ url('admin/subjects/create') }}">Add New Subject</a></li>
+                        <li><a href="{{ url('admin/subjects') }}">View Subjects</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Programs<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ url('admin/programs/create') }}">Add New Program</a></li>
+                        <li><a href="{{ url('admin/programs') }}">View Programs</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown"><a href="{{ url('about') }}">About</a></li>
             </ul>
         </div>
     </div>
@@ -23,7 +35,7 @@
     <div class="row">
         <div class="row">
             <div class="col-lg-6">
-                <h1>@yield('Title')</h1>
+                <h4>@yield('Title')</h4>
             </div>
 
         </div>
