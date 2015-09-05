@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
 
-class CreateProgramRequest extends Request
+class CreateStudentRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,12 +24,8 @@ class CreateProgramRequest extends Request
     public function rules()
     {
         return [
-
-            'program_code' => 'required',
-            'program_category' => 'required',
-            'program_min_points' => 'required',
-            'program_name' => 'required',
-            'required_subject_1' => 'different:required_subject_2'
+            'subject1' => 'different:subject2|different:subject3',
+            'subject2' => 'different:subject3|different:subject1'
         ];
     }
 }

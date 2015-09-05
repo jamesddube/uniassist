@@ -18,7 +18,6 @@ class CreateProgramsMigration extends Migration
             $table->string('program_name');
             $table->string('program_category');
             $table->integer('program_min_points');
-            $table->integer('program_max_points');
             $table->timestamps();
         });
     }

@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\CategoryModel;
+use App\Http\Requests\CreateStudentRequest;
 use App\ProgramsModel;
 use App\SubjectModel;
+use App\SubjectRequiredModel;
+use App\Uniassist\Student;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -15,6 +18,7 @@ class UserController extends Controller
     private $subjects;
     private $subjects_points;
     private $combination;
+    private $message;
     private $cat = 0;
 
 
@@ -25,28 +29,39 @@ class UserController extends Controller
     }
 
 
-    public function results(Request $input)
+    /**
+     * @param CreateStudentRequest|Request $input
+     * @return array
+     */
+    public function results(CreateStudentRequest $input)
     {
-        $this->setResults($input);
 
-        return $this->getProgramsByCat($this->calculateCombination());
+        $student = new Student($input);
+
+        return $student->getPrograms();
+
     }
 
-    private function setResults($input)
+    private function setResults(Request $input)
     {
-        $this->subjects = array(
+        if ($input->has('subject1')) {
+            $this->subjects = array(
 
-            $input->subject1,
-            $input->subject2,
-            $input->subject3
-        );
+                $input->subject1,
+                $input->subject2,
+                $input->subject3
+            );
 
-        $this->subjects_points = array(
+            $this->subjects_points = array(
 
-            $input->subject1_points,
-            $input->subject2_points,
-            $input->subject3_points
-        );
+                $input->subject1_points,
+                $input->subject2_points,
+                $input->subject3_points
+            );
+        }
+        else {
+            dd('no request found');
+        }
 
     }
 
@@ -66,32 +81,31 @@ class UserController extends Controller
 
         $cat = CategoryModel::all();
 
-        for ($c = 0; $c < count($cat); $c++)
-        {
-           $data[$cat[$c]->category_code] = $this->getClassCount($cat[$c]->category_code,$this->subjects);
+        if ($cat != null) {
+
+            for ($c = 0; $c < count($cat); $c++) {
+                $data[$cat[$c]->category_code] = $this->getClassCount($cat[$c]->category_code, $this->subjects);
+            }
+
+            array_walk($data, array($this, 'Compare'));
+
+            return $this->combination;
         }
-
-        array_walk($data,array($this,'Compare'));
-
-        /*return $this->ras('HCS528',$this->subjects);
-        echo "<pre>";
-        var_dump($cat->toArray());
-        var_dump($this->subjects);
-        var_dump($data);
-*/
-        return $this->combination;
+        else {
+            dd("error occured");
+        }
 
     }
 
-    private function Compare($value,$key)
+    private function Compare($value, $key)
     {
-        if($value > $this->cat)
-        {
+        if ($value > $this->cat) {
             $this->combination = $key;
         }
     }
 
-    private function getClassCount($needle, $haystack) {
+    private function getClassCount($needle, $haystack)
+    {
         $keys = array();
         foreach ($haystack as $key => $value) {
             if ($needle === $value OR (is_array($value) && $this->getClassCount(
@@ -110,9 +124,23 @@ class UserController extends Controller
 
     public function getProgramsByCat($category)
     {
-        $programs = ProgramsModel::where('program_category',$category)->get();
+        $programs = ProgramsModel::where('program_category', $category)->get();
 
-        return $programs;
+        return $programs->toArray();
+    }
+
+    private function getPassedSubjects()
+    {
+        $passed = null;
+        for ($i = 0; $i < 3; $i++)
+        {
+            if ($this->subjects_points[$i] > 0)
+            {
+                $passed[] = $this->subjects[$i];
+            }
+        }
+
+        return$passed;
     }
 
 }

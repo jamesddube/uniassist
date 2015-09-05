@@ -2,6 +2,15 @@
 @section('Title', 'Student Results')
 @section('content')
     <div class="col-md-6 col-md-offset-3">
+        @if (count($errors) > 0)
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
     <form role="form" action="{{ url('results') }}" method="post">
         {!! csrf_field() !!}
         <div class="panel panel-default">
@@ -13,7 +22,7 @@
                             <label for="NatId">Subject</label>
                             <select class="form-control sp" name="subject1">
                                 @foreach($subjects as $subject)
-                                    <option value="{{ $subject->subject_category }}">{{ $subject->subject_name }}</option>
+                                    <option value="{{ $subject->subject_code }}">{{ $subject->subject_name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -34,7 +43,7 @@
                             <label for="NatId">Subject</label>
                             <select class="form-control sp" name="subject2">
                                 @foreach($subjects as $subject)
-                                    <option value="{{ $subject->subject_category }}">{{ $subject->subject_name }}</option>
+                                    <option value="{{ $subject->subject_code }}">{{ $subject->subject_name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -55,7 +64,7 @@
                             <label for="NatId">Subject</label>
                             <select class="form-control sp" name="subject3">
                                 @foreach($subjects as $subject)
-                                    <option value="{{ $subject->subject_category }}">{{ $subject->subject_name }}</option>
+                                    <option value="{{ $subject->subject_code }}">{{ $subject->subject_name }}</option>
                                 @endforeach
                             </select>
                         </div>

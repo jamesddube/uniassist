@@ -21,6 +21,16 @@
                     @endif
                     <div class="form-group">
                         <div class="row">
+                            <div class="col-md-10 col-md-offset-1">
+                                <label for="NatId">Program Name</label>
+                                <input type="text" name="program_name" id="password" placeholder="Program Name" class="form-control">
+                            </div>
+
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="form-group">
+                        <div class="row">
                             <div class="col-md-3 col-md-offset-1">
                                 <label for="NatId">Program Code</label>
                                 <input class="form-control" type="text" name="program_code">
@@ -43,13 +53,27 @@
                             </div>
                         </div>
                     </div>
+                    <hr>
                     <div class="form-group">
                         <div class="row">
-                            <div class="col-md-10 col-md-offset-1">
-                                <label for="NatId">Program Name</label>
-                                <input type="text" name="program_name" id="password" placeholder="Program Name" class="form-control">
+                            <div class="col-md-5 col-md-offset-1">
+                                <label for="NatId">Subject Required 1</label>
+                                <select class="form-control sp" name="required_subject_1">
+                                    <option value="None1">None</option>
+                                    @foreach($subjects as $subject)
+                                        <option value="{{ $subject->subject_code }}">{{ $subject->subject_name }}</option>
+                                    @endforeach
+                                </select>
                             </div>
-
+                            <div class="col-md-5">
+                                <label for="NatId">Subject Required 2</label>
+                                <select class="form-control sp" name="required_subject_2">
+                                    <option value="None2">None</option>
+                                    @foreach($subjects as $subject)
+                                        <option value="{{ $subject->subject_code }}">{{ $subject->subject_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group text-center">
